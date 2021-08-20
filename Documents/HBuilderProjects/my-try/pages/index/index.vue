@@ -6,7 +6,7 @@
 			<input type="text" placeholder="密码" v-model="password">
 			<button type="primary" @click="login">提交</button>
 		</div>
-		<image src="http://43.130.10.114:8080/02.jpg" mode="">yhello</image>
+		
 	</div>
 	
 </template>

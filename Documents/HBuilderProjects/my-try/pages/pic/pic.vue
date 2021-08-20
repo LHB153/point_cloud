@@ -3,10 +3,11 @@
 		<view class="progress-box">
 			<progress :percent=percent show-info stroke-width="3" />
 		</view>
+		<button >算法计算</button>
 		<unicloud-db ref="udb" v-slot:default="{data, loading, error, options}" collection="imgurl"   :getone="false"  :where="`ID == ${item.ID} && data == '${item.data}'`">
 			<view v-if="error">{{error.message}}</view>
 			<view v-else>
-				<button  @click="commit">上传图片</button>
+				<button v-if="`${item1.mark}` == 0"  @click="commit">上传图片</button>
 				<block v-for="item in data" :key="item._id">
 					<view class="">{{item.imgname}}</view>
 					<image :src="item.imgurl" mode=""></image>
@@ -15,6 +16,7 @@
 			</view>
 			<view v-else-if="loading">正在加载...</view>
 		</unicloud-db>
+		
 	</view>
 		</block>
 	</view>
@@ -35,7 +37,15 @@ export default {
 				"data":'2021-8-1',  //日期，这里有点乱 没事了
 				"imgurl":"",
 				'imgname':"",
-			}  
+			},
+			item1:{   //原来的链接的数据
+				"_id":"",
+				"ID":0,
+				"data":"",
+				"tall":"",
+				"width":"",
+				"mark":0
+			}
 		}
 	},
 	onReachBottom() { //滚动到底翻页
@@ -96,8 +106,22 @@ export default {
 						   db.collection('imgurl').add(this.item).then(e=>{
 						   	
 						    });
+							//接下来进行标志mark
+							this.item1.mark = 1 //表示传递成功
+							let item1 = {...this.item1}
+							console.log(item1); 
+							delete item1._id
+							db.collection('growData').doc(this.item1._id).update(item1).then(e=>{
+								console.log(e); 
+							});
 						   console.log('上传成功'+(currentIndx+1)+'上传成功')
 						   alert('上传成功了，总共上传了 '+pics_href.length + '张图片')
+						   uni.navigateTo({
+								url: '../show/show',
+								success: res => {},
+								fail: () => {},
+								complete: () => {}
+						   });
 					   }
 				  },
 				fail: () => {console.log('第'+(currentIndx+1)+'图片上传失败！！！')},
@@ -110,8 +134,10 @@ export default {
 	onLoad({item}) {
 		if(item != undefined)
 		{		var tem = JSON.parse(item)
+				this.item1 = JSON.parse(item)
 				this.item.ID = tem.ID
 				this.item.data = tem.data
+				//console.log(this.item1._id)
 				console.log(this.item)  //打印出传递的参数
 		}
 	},

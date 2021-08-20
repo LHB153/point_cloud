@@ -8,7 +8,7 @@
 			<view v-if="error">{{error.message}}</view>
 			<view v-else>
 				<uni-list>
-					<uni-list-item v-for="item in data" @longpress.native="rmItem(item._id)" @click="updateFn(item)" :key="item._id" :title="'记录日期：' + item.data"   :note="'算法计算得出的高度：'+item.tall + 'cm 宽度：' + item.width +'cm'" link >
+					<uni-list-item v-for="item in data" @longpress.native="rmItem(item._id)" @click="updateFn(item)"  :key="item._id" :title="'记录日期：'+ item.data + ' '+(item.mark == 1 ?'已上传照片 ':'未上传照片 ')"   :note="'算法计算得出的高度：'+item.tall + 'cm 宽度：' + item.width +'cm'" link >
 						
 					</uni-list-item>
 				</uni-list>
@@ -26,14 +26,15 @@
 			return {
 				res:'hello',
 				ID: 1,
-				name:"植株1"
+				name:"植株1",
+				mark:'未记录'
 			}
 		},
 		onLoad:function(e){
 			console.log(e);
 			this.ID = e.ID;
 			this.name = decodeURIComponent(e.name);
-			console.log(e.ID);
+			console.log(e);
 			
 		},
 		methods:{

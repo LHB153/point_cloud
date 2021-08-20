@@ -32,7 +32,7 @@
 			})
 		},
 		methods:{
-			openinfo(ID,name){
+			openinfo(ID,name,mark){
 				uni.navigateTo({
 					url: '../info/info?ID='+ID+'&name='+decodeURIComponent(name),
 					success: res => {},
