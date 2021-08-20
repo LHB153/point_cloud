@@ -3,11 +3,12 @@
 		<view class="progress-box">
 			<progress :percent=percent show-info stroke-width="3" />
 		</view>
-		<button >算法计算</button>
+		<button >进行算法计算</button>
 		<unicloud-db ref="udb" v-slot:default="{data, loading, error, options}" collection="imgurl"   :getone="false"  :where="`ID == ${item.ID} && data == '${item.data}'`">
 			<view v-if="error">{{error.message}}</view>
 			<view v-else>
 				<button v-if="`${item1.mark}` == 0"  @click="commit">上传图片</button>
+				<button v-if="`${item1.mark}` == 1"  @click="">已成功上传照片</button>
 				<block v-for="item in data" :key="item._id">
 					<view class="">{{item.imgname}}</view>
 					<image :src="item.imgurl" mode=""></image>
@@ -64,15 +65,25 @@ export default {
 					let reg = /tt>.*\.jpg/g  //提取出所需要的照片地址
 					let pics_before = res.data.match(reg)
 					//用来获取所有照片和名字
-					for(var i = 0; i < Number(pics_before['length']);i++)
-					{	
-						let rep = pics_before[i].replace('tt>','')
-						let href = this.url + rep
-						this.pics_href[i] = href
-						this.pics_name[i] = rep 
+					console.log(pics_before)
+					if(pics_before == undefined)
+					{
+						alert('系统没有检测到拍照图片，请进行拍照后保存在指定文件夹下')
 					}
-					this.up_img(this.pics_href,this.pics_name,0); //开始上传图片
+					else{
+						for(var i = 0; i < Number(pics_before['length']);i++)
+						{	
+							let rep = pics_before[i].replace('tt>','')
+							let href = this.url + rep
+							this.pics_href[i] = href
+							this.pics_name[i] = rep 
+						}
+						this.up_img(this.pics_href,this.pics_name,0); //开始上传图片
+					}
+
 				},
+				fail: res => {
+				}
 			});
 		},
 		// 递归上传
