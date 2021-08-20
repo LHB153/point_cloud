@@ -9,7 +9,7 @@
 			<view v-else>
 				<uni-list>
 					<uni-list-item v-for="item in data" @longpress.native="rmItem(item._id)" @click="updateFn(item)" :key="item._id" :title="'记录日期：' + item.data"   :note="'算法计算得出的高度：'+item.tall + 'cm 宽度：' + item.width +'cm'" link >
-						{{item._id}}	
+						
 					</uni-list-item>
 				</uni-list>
 			</view>
@@ -39,7 +39,8 @@
 		methods:{
 			updateFn(item){
 				uni.navigateTo({
-					url: '../update/update?item='+JSON.stringify(item),
+					url: '../pic/pic?item='+JSON.stringify(item),
+			//		url: '../update/update?item='+JSON.stringify(item),
 					success: res => {},
 					fail: () => {},
 					complete: () => {}
