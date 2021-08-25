@@ -17,25 +17,28 @@
 					"ID":0,
 					"data":"",
 					"tall":"",
-					"width":""
+					"width":"",
+					"mark":0
 				}
 			}
 		},
 		onLoad({item}) {
 			this.item = JSON.parse(item)
+			console.log('this.item')
 		},
 		methods:{
 			submit(){
 				const db = uniCloud.database();
 				let item = {...this.item}
+				console.log(this.item)
 				delete item._id
 				db.collection('growData').doc(this.item._id).update(item).then(e=>{
 					console.log(e); 
 				});
 				success:{
-					// uni.navigateTo({
-					// 	url:'../show/show',
-					// })
+					uni.navigateTo({
+						url:'../show/show',
+					})
 				}
 			}
 		}

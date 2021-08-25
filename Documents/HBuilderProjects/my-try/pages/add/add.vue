@@ -2,8 +2,8 @@
 	<view>
 		<uni-easyinput  v-model.number="item.ID" placeholder="植株的编号ID" />
 		<uni-easyinput  v-model="item.data" placeholder="记录的日期[例如 2021-8-1]" />
-		<uni-easyinput  v-model="item.tall" placeholder="算法计算的高度(cm)" />
-		<uni-easyinput  v-model="item.width" placeholder="算法计算的宽度(cm)" />
+<!-- 		<uni-easyinput  v-model="item.tall" placeholder="算法计算的高度(cm)" />
+		<uni-easyinput  v-model="item.width" placeholder="算法计算的宽度(cm)" /> -->
 		<button type="default" @click="submit">提交</button>
 	</view>
 </template>
@@ -16,7 +16,8 @@
 					"ID":0,
 					"data":"",
 					"tall":"",
-					"width":""
+					"width":"",
+					"mark":0
 				}
 			}
 		},

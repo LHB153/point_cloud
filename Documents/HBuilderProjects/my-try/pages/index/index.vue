@@ -29,7 +29,7 @@
 				if(this.userName == 'admin' && this.password == "123456")
 				{
 					this.$router.push({
-					path:'/pages/show/show',
+					path:'/pages/guide/guide',
 					})
 				}
 				else alert("请重新输入");

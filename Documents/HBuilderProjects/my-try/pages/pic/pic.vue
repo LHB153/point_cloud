@@ -3,12 +3,12 @@
 		<view class="progress-box">
 			<progress :percent=percent show-info stroke-width="3" />
 		</view>
-		<button >进行算法计算</button>
 		<unicloud-db ref="udb" v-slot:default="{data, loading, error, options}" collection="imgurl"   :getone="false"  :where="`ID == ${item.ID} && data == '${item.data}'`">
 			<view v-if="error">{{error.message}}</view>
 			<view v-else>
 				<button v-if="`${item1.mark}` == 0"  @click="commit">上传图片</button>
 				<button v-if="`${item1.mark}` == 1"  @click="">已成功上传照片</button>
+				<button v-if="`${item1.mark}` == 1"  @click="updateFn(`${item1}`)">进行算法计算</button>
 				<block v-for="item in data" :key="item._id">
 					<view class="">{{item.imgname}}</view>
 					<image :src="item.imgurl" mode=""></image>
@@ -54,6 +54,17 @@ export default {
 	},
 
 	methods: {
+		updateFn(item){
+			uni.navigateTo({
+				url: '../update/update?item='+JSON.stringify(this.item1),
+				success: res => {
+					console.log('res')
+					console.log(this.item.ID)
+				},
+				fail: () => {},
+				complete: () => {}
+			});
+		},
 		commit(){
 			this.url = 'https://www.gdxy.asia:8443/pic/' + this.item.ID + '/'+this.item.data+'/';
 			const that = this
@@ -71,6 +82,7 @@ export default {
 						alert('系统没有检测到拍照图片，请进行拍照后保存在指定文件夹下')
 					}
 					else{
+						alert('找到'+Number(pics_before['length']) +'张照片，点击确定进行上传');
 						for(var i = 0; i < Number(pics_before['length']);i++)
 						{	
 							let rep = pics_before[i].replace('tt>','')
