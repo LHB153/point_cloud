@@ -3,16 +3,18 @@
 		<view class="progress-box">
 			<progress :percent=percent show-info stroke-width="3" />
 		</view>
+		
 		<unicloud-db ref="udb" v-slot:default="{data, loading, error, options}" collection="imgurl"   :getone="false"  :where="`ID == ${item.ID} && data == '${item.data}'`">
 			<view v-if="error">{{error.message}}</view>
 			<view v-else>
 				<button v-if="`${item1.mark}` == 0"  @click="commit">上传图片</button>
 				<button v-if="`${item1.mark}` == 1"  @click="">已成功上传照片</button>
 				<button v-if="`${item1.mark}` == 1"  @click="updateFn(`${item1}`)">进行算法计算</button>
-				<block v-for="item in data" :key="item._id">
+				<button v-if="`${item1.mark}` == 1"  @click="lookpic(`${item}`)">查看上传的图片</button>
+<!-- 				<block v-for="item in data" :key="item._id">
 					<view class="">{{item.imgname}}</view>
 					<image :src="item.imgurl" mode=""></image>
-				</block>
+				</block> -->
 				
 			</view>
 			<view v-else-if="loading">正在加载...</view>
@@ -46,7 +48,9 @@ export default {
 				"tall":"",
 				"width":"",
 				"mark":0
-			}
+			},
+			name:'',
+			num:0,//计数
 		}
 	},
 	onReachBottom() { //滚动到底翻页
@@ -60,6 +64,16 @@ export default {
 				success: res => {
 					console.log('res')
 					console.log(this.item.ID)
+				},
+				fail: () => {},
+				complete: () => {}
+			});
+		},
+		lookpic(item){
+			uni.navigateTo({
+				url: '../pic_all/pic_all?item='+JSON.stringify(this.item),
+				success: res => {
+
 				},
 				fail: () => {},
 				complete: () => {}
@@ -83,8 +97,13 @@ export default {
 					}
 					else{
 						alert('找到'+Number(pics_before['length']) +'张照片，点击确定进行上传');
+						this.num = Number(pics_before['length']);
+						uni.showLoading({
+							title:'上传图片中 '+0+'/'+this.num
+						});
 						for(var i = 0; i < Number(pics_before['length']);i++)
 						{	
+
 							let rep = pics_before[i].replace('tt>','')
 							let href = this.url + rep
 							this.pics_href[i] = href
@@ -107,7 +126,11 @@ export default {
 				filePath: pics_href[currentIndx],//当前图片路径
 				cloudPath:pics_name[currentIndx],//文件夹名
 				success: (res1) => {
+						uni.showLoading({
+							title:'上传图片中 '+(currentIndx+1)+'/'+this.num
+						});
 					   console.log('第'+(currentIndx+1)+'图片上传成功')
+
 					   this.item.imgname= pics_name[currentIndx];
 					   this.item.imgurl = res1.fileID;
 					   this.percent = parseInt((currentIndx+ 1)/pics_href.length * 100)
@@ -126,6 +149,7 @@ export default {
 						   //这里要使用uniCloud而不是uni
 						   console.log(this.item); 
 						    const db = uniCloud.database();
+							delete this.item.name
 						   db.collection('imgurl').add(this.item).then(e=>{
 						   	
 						    });
@@ -138,13 +162,18 @@ export default {
 								console.log(e); 
 							});
 						   console.log('上传成功'+(currentIndx+1)+'上传成功')
+						   uni.hideLoading();
 						   alert('上传成功了，总共上传了 '+pics_href.length + '张图片')
-						   uni.navigateTo({
-								url: '../show/show',
-								success: res => {},
-								fail: () => {},
-								complete: () => {}
-						   });
+						   
+						  //不用使用跳转，上传图片后对数据进行查询即可
+						  //  uni.navigateTo({
+								// url: '../show/show',
+								// success: res => {},
+								// fail: () => {},
+								// complete: () => {}
+						  //  });
+
+							//console.log(this.item1._id)
 					   }
 				  },
 				fail: () => {console.log('第'+(currentIndx+1)+'图片上传失败！！！')},
@@ -155,6 +184,7 @@ export default {
 		}
 	},
 	onLoad({item}) {
+		console.log(item)
 		if(item != undefined)
 		{		var tem = JSON.parse(item)
 				this.item1 = JSON.parse(item)

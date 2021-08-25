@@ -37,14 +37,17 @@
 			},
 			submit(){
 				const db = uniCloud.database();
+				uni.showLoading({
+					title:'上传记录中'
+				});
 				db.collection('class').add(this.item).then(e=>{
 					console.log(e); 
-				});
-				success:{
+					uni.hideLoading()
 					uni.navigateTo({
-						url:'../info/info',
+						url:'../show/show',
 					})
-				}
+				});
+
 			}
 		}
 	}

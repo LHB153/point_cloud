@@ -63,6 +63,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/pic_all/pic_all",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

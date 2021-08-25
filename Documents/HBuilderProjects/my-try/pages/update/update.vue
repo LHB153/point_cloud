@@ -19,11 +19,26 @@
 					"tall":"",
 					"width":"",
 					"mark":0
-				}
+				},
+				name:""
 			}
 		},
 		onLoad({item}) {
-			this.item = JSON.parse(item)
+			 const db = uniCloud.database()
+			 this.item = JSON.parse(item)
+			  // 使用`jql`查询list表内`name`字段值为`hello-uni-app`的记录
+			  db.collection('class')
+				.where('ID =='+this.item.ID)
+				.get()
+				.then((res)=>{
+					console.log(res)
+					console.log(res.result.data[0].name)
+					this.name = res.result.data[0].name; //提取名字
+				  // res 为数据库查询结果
+				}).catch((err)=>{
+				  // err.message 错误信息
+				  // err.code 错误码
+				})
 			console.log('this.item')
 		},
 		methods:{
@@ -37,7 +52,7 @@
 				});
 				success:{
 					uni.navigateTo({
-						url:'../show/show',
+						url:'../info/info?ID='+this.item.ID + "&name="+decodeURIComponent(this.name),
 					})
 				}
 			}

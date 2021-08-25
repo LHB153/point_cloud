@@ -40,7 +40,7 @@
 		methods:{
 			updateFn(item){
 				uni.navigateTo({
-					url: '../pic/pic?item='+JSON.stringify(item),
+					url: '../pic/pic?item='+JSON.stringify(item)+'&name='+decodeURIComponent(this.name),
 			//		url: '../update/update?item='+JSON.stringify(item),
 					success: res => {},
 					fail: () => {},
@@ -49,7 +49,7 @@
 			},
 			add(){
 				uni.navigateTo({
-					url:'../add/add?ID='+this.ID
+					url:'../add/add?ID='+this.ID+'&name='+decodeURIComponent(this.name)
 				})
 			},
 			rmItem(id){

@@ -18,24 +18,29 @@
 					"tall":"",
 					"width":"",
 					"mark":0
-				}
+				},
+				name:''
 			}
 		},
 		onLoad:function(e) {
 			this.item.ID = Number(e.ID);
 			console.log(this.ID)
+			this.name = decodeURIComponent(e.name)
 		},
 		methods:{
 			submit(){
 				const db = uniCloud.database();
-				db.collection('growData').add(this.item).then(e=>{
-					console.log(e); 
+				uni.showLoading({
+					title:'上传记录中'
 				});
-				success:{
-					uni.navigateTo({
-						url:'../show/show',
-					})
-				}
+				db.collection('growData').add(this.item).then(e=>{
+					console.log(e);
+					uni.hideLoading()
+					 uni.navigateTo({
+					 	url:'../info/info?ID='+this.item.ID+'&name='+decodeURIComponent(this.name),
+					 })
+				});
+
 			}
 		}
 	}
