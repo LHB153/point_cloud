@@ -1,0 +1,24 @@
+{
+	"bsonType": "object",
+	"required": [],
+	"permission": {
+		"read": true,
+		"create": true,
+		"update": true,
+		"delete": true
+	},
+	"properties": {
+		"_id": {
+			"description": "ID，系统自动生成"
+		},
+		"ID":{},
+		"name":{},
+		"iconurl":{},
+		"data":{},  //日期
+		"tall":{},  //实际长度
+		"width":{}, //实际宽度
+		"tall_cal":{}, //算法得到的长度
+		"width_cal":{},
+		"mark":0
+	}
+}

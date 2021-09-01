@@ -1,0 +1,20 @@
+{
+	"bsonType": "object",
+	"required": [],
+	"permission": {
+		"read": true,
+		"create": true,
+		"update": true,
+		"delete": true
+	},
+	"properties": {
+		"_id": {
+			"description": "ID，系统自动生成"
+		},
+		"data":{},
+		"tall":{},
+		"width":{},
+		"ID":{},
+		"mark":0   //默认为零，零表示没有上传照片
+	}
+}
