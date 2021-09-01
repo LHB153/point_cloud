@@ -1,11 +1,49 @@
 <template>
 	<view>
-		<unicloud-db v-slot:default="{data, loading, error, options}" collection="class"  :getone="true" >
-		  <view>
-		    {{ data.ID}}
-		  </view>
+		<unicloud-db ref="udb" v-slot:default="{data, loading, error, options}" collection="class"   :getone="false" >
+			<view v-if="error">{{error.message}}</view>
+			<view v-else>
+				<tr >
+				  <th style="margin-right: 30px; width: 60px;" class="th">序号</th>
+				  <th  style="margin-right: 30px; width:90px;">植株名字</th>
+				  <th style="margin-right: 30px; width: 90px;">植株ID</th>
+				  <th style="margin-right: 30px; width: 90px;">记录日期</th>
+				  <th style="margin-right: 30px; width: 45px;">实际长度</th>
+				  <th style="margin-right: 30px; width: 45px;">实际宽度</th>
+				  <th style="margin-right: 30px; width: 45px;">算法宽度</th>
+				  <th style="margin-right: 30px; width: 45px;">算法宽度</th>
+				</tr>
+				<tr v-for="(item,index) in data" :key="item._id">
+					<td style="margin-top: 3px; height: 33px;text-align: center;">{{index+1}}</td>
+					<td style="text-align: center;">{{item.name}}</td>
+					<td style="text-align: center;">{{item.ID}}</td>
+					<td style="text-align: center;">{{item.data}}</td>
+					<td style="text-align: center;">{{item.tall_cal}}</td>
+					<td style="text-align: center;">{{item.width_cal}}</td>
+					<td style="text-align: center;">{{item.tall}}</td>
+					<td style="text-align: center;">{{item.width}}</td>
+				</tr>
+			</view>
+			<view v-else-if="loading">正在加载...</view>
 		</unicloud-db>
-		<div>
+<!-- <div>
+  {{ message }}
+  <table >
+    <tr>
+      <th>序号</th>
+      <th v-for="key in orderBy" >
+        {{tableTh[key].title}}
+      </th>
+    </tr>
+    <tr v-for="(tr,i) in dataList">
+      <td>{{i+1}}</td>
+      <td v-for="key in orderBy" v-bind:align="tableTh[key].align">
+        {{tr[key]}}
+      </td>
+    </tr>
+  </table>
+</div> -->
+<!-- 		<div>
 		  {{ message }}
 		  <table class="table_default1" >
 		    <tr>
@@ -21,7 +59,7 @@
 		      </td>
 		    </tr>
 		  </table>
-		</div>
+		</div> -->
 	</view>
 </template>
 
@@ -33,13 +71,17 @@
 				      orderBy: ["c1", "c2"], //可以控制字段的先后顺序，想调整列的先后顺序，改这个数组就行，可以做个性化设置
 				      tableTh: {//表头的描述信息
 				        c1: {
-				          title: "公司名称", //还可以增加其他描述，比如width等
+				          title: "植株名字", //还可以增加其他描述，比如width等
 				          align: "left"
 				        },
 				        c2: {
-				          title: "电话",
-				          align: "right"
-				        }
+				          title: "植株ID",
+				          align: "left"
+				        },
+						c3: {
+						  title: "记录日期",
+						  align: "left"
+						}
 				      },
 				      dataList: [
 				        {
@@ -66,5 +108,7 @@
 </script>
 
 <style>
-
+.th {
+	margin: 20;
+}
 </style>

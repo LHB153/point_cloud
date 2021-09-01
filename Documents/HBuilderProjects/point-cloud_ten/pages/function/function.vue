@@ -29,7 +29,7 @@
 					icon:'/static/images/look.png',
 					title:'查看数据',
 					desc:'查看已经录入的数据',
-					navigateTo:'../add/add'
+					navigateTo:'../tabel/tabel'
 				},{
 					icon:'/static/images/view.png',
 					title:'数据可视化',
