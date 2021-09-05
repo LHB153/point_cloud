@@ -2,6 +2,8 @@
 	<view>
 		<uni-easyinput  v-model.number="item.ID" placeholder="植株的编号ID" />
 		<uni-easyinput  v-model="item.data" placeholder="记录的日期[例如 2021-8-1]" />
+		<uni-easyinput  v-model="item.tall_cal" placeholder="实际的高度(cm)" />
+		<uni-easyinput  v-model="item.width_cal" placeholder="实际的宽度(cm)" />
 		<uni-easyinput  v-model="item.tall" placeholder="算法计算的高度(cm)" />
 		<uni-easyinput  v-model="item.width" placeholder="算法计算的宽度(cm)" />
 		<button type="default" @click="submit">提交</button>
@@ -17,6 +19,9 @@
 					"ID":0,
 					"data":"",
 					"tall":"",
+					"width":"",
+					"tall_cal":"",
+					"width_cal":"",
 					"width":"",
 					"mark":0
 				},
@@ -47,12 +52,13 @@
 				let item = {...this.item}
 				console.log(this.item)
 				delete item._id
-				db.collection('growData').doc(this.item._id).update(item).then(e=>{
+				db.collection('class').doc(this.item._id).update(item).then(e=>{
 					console.log(e); 
 				});
 				success:{
 					uni.navigateTo({
-						url:'../info/info?ID='+this.item.ID + "&name="+decodeURIComponent(this.name),
+						// url:'../info/info?ID='+this.item.ID + "&name="+decodeURIComponent(this.name),
+						url:'../tabel/tabel?item='+JSON.stringify(this.item),	
 					})
 				}
 			}

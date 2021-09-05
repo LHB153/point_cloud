@@ -53,6 +53,7 @@
 				}
 				else alert("请重新输入");
 			}
+			
 		}
 	}
 </script>
